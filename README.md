@@ -2,17 +2,17 @@
 
 **Inspect before you cut.** Find duplicate paths, missing viewBoxes, live text and hidden artwork — from the browser, CLI or TypeScript.
 
-[![CI](https://github.com/mylasertools-com/laser-svg/actions/workflows/ci.yml/badge.svg)](https://github.com/mylasertools-com/laser-svg/actions/workflows/ci.yml)
+[![CI](https://github.com/mylasertools/laser-svg/actions/workflows/ci.yml/badge.svg)](https://github.com/mylasertools/laser-svg/actions/workflows/ci.yml)
 [![npm](https://img.shields.io/npm/v/%40mylasertools%2Flaser-svg?color=254f46)](https://www.npmjs.com/package/@mylasertools/laser-svg)
 [![MIT](https://img.shields.io/badge/license-MIT-254f46)](LICENSE)
 
-**[Try the live workbench →](https://mylasertools-com.github.io/laser-svg/demo/)** · [API reference](docs/API.md) · [Examples](examples/) · [Report an issue](https://github.com/mylasertools-com/laser-svg/issues)
+**[Try the live workbench →](https://mylasertools.github.io/laser-svg/demo/)** · [API reference](docs/API.md) · [Examples](examples/) · [Report an issue](https://github.com/mylasertools/laser-svg/issues)
 
 ![Actual workbench: inspect a tag, opt into hidden-layer removal, then apply fixes](docs/assets/cleanup.gif)
 
 TypeScript · ESM · Node.js 20+ · Browser bundle · MIT
 
-An open-source tool by [MyLaserTools](https://mylasertools.com). The demo uses this repository's actual source, processes files locally and needs no account. GIFs are captured from the running workbench with `npm run capture`.
+An open-source tool by [MyLaserTools](https://mylasertools.com). The browser demo processes files locally and needs no account.
 
 > The demo follows `main`. The fixes described in [Unreleased](CHANGELOG.md) are not yet in npm 0.1.0. To use them now, build from source with `npm ci && npm run build && npm pack`.
 
@@ -186,30 +186,12 @@ Everything else — whitespace, attribute order, comments, unrelated elements �
 - Filters, masks, clip paths and patterns are reported but not flattened.
 - CSS cascade, referenced resources, full SVG rendering semantics, and cutting-machine behavior are not evaluated. Hidden removal can discard intentional layers, including groups with visible descendants; inspect the output before cutting. No rule report certifies a file as safe to manufacture.
 
-[Review findings and validation evidence](docs/REVIEW.md) document the corrected bugs and remaining boundaries.
-
-## Development
-
-```bash
-npm ci
-npm run check         # formatting, types, 100 unit/CLI regression tests
-npm run demo          # http://127.0.0.1:4179/demo/
-npm run test:package  # isolated tarball consumer + CLI
-npx playwright install chromium firefox webkit
-npm run test:browser  # real browser fixes, downloads and mobile checks
-npm run capture      # regenerate screenshot + GIFs; requires ffmpeg
-```
-
-Architecture notes:
-
-- Each rule is an independent `ValidationRule` (`run(document) => LaserSvgIssue[]`) in `src/validator/rules/`; add a file, export a rule, register it in `defaultRules`.
-- XML is validated and parsed with `fast-xml-parser`. A separate source-span scanner maps parsed elements to the input; the fixer edits only the affected source spans and preserves untouched bytes.
-- Geometry helpers live in `src/geometry/` with no dependencies, so they can move into a separate `laser-geometry` package later.
+Library callers should set resource limits for untrusted or very large input. Near-duplicate matching can be quadratic.
 
 ## Contributing
 
 Issues and pull requests are welcome at
-[github.com/mylasertools-com/laser-svg](https://github.com/mylasertools-com/laser-svg).
+[github.com/mylasertools/laser-svg](https://github.com/mylasertools/laser-svg).
 
 - New rules need a stable `code`, at least one positive and one negative test, and a row in the rules table above.
 - Anything that changes geometry is out of scope for the fixer unless it is provably lossless.

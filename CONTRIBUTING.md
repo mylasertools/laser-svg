@@ -15,10 +15,10 @@ New validation rules need a stable issue code, positive and negative tests, and 
 
 `npm run demo` builds a self-contained static site and serves it at `http://127.0.0.1:4179/demo/`. Edit `demo/`, `examples/` or `src/`, then restart the command to rebuild. The worker bundles the actual package entry point. The demo has no CDN scripts, remote fonts, analytics or upload endpoint.
 
-`npm run capture` needs Chromium (`npx playwright install chromium`) and `ffmpeg` on PATH. It starts a temporary server on port 4181, drives actual workbench controls, and regenerates `docs/assets/workbench.png`, `cleanup.gif`, and `tolerance.gif`. Intermediate frames and the mobile screenshot remain ignored in `qa-dist/`. Do not replace the GIFs with invented output or claim that unchanged previews prove manufacturing safety.
+`npm run capture` needs Chromium (`npx playwright install chromium`) and `ffmpeg` on PATH. It starts a temporary server on port 4181, drives actual workbench controls, and regenerates `docs/assets/workbench.png`, `cleanup.gif`, and `tolerance.gif`. Intermediate frames and the mobile screenshot remain ignored in `qa-dist/`.
 
 ## Deployment
 
-Enable GitHub Pages with GitHub Actions as its source. After CI succeeds for a push to `main`, the Pages workflow checks out that exact commit, runs `npm ci` and `npm run build:site`, and publishes **only** `site/`. The public URL is `https://mylasertools-com.github.io/laser-svg/demo/`. Repository source, dependencies and test output are not part of that site artifact.
+Enable GitHub Pages with GitHub Actions as its source. After CI succeeds for a push to `main`, the Pages workflow checks out that exact commit, runs `npm ci` and `npm run build:site`, and publishes `site/`. The public URL is `https://mylasertools.github.io/laser-svg/demo/`.
 
 The package tarball contains `dist`, README and LICENSE. The browser demo and GIFs are repository/site assets, not installed runtime code. A separate versioned npm release is needed to publish the unreleased package fixes.
